@@ -1,7 +1,4 @@
-# main.py — Application datasetManager
-# Partie 1 : types de base, variables, entrées et sorties
-
-# --- Saisie des métadonnées d'un dataset ---
+# --- Saisie des métadonnées du dataset ---
 nom = input("Nom du dataset : ")
 domaine = input("Domaine : ")
 lignes = int(input("Nombre de lignes : "))
@@ -10,7 +7,7 @@ taille = float(input("Taille en Mo : "))
 format_dataset = input("Format (csv ou json) : ")
 public = input("Public ? (true ou false) : ") == "true"
 
-# --- Affichage d'un résumé formaté ---
+# --- Affichage du résumé  ---
 print("\n===== Résumé du dataset =====")
 print(f"Nom      : {nom}")
 print(f"Domaine  : {domaine}")
