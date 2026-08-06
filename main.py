@@ -1,6 +1,15 @@
+
+# --- tuple ---
+domaines_autorises = ("Santé", "Finance", "Agriculture", "Transport", "Education")
+
+
 # --- Saisie des métadonnées du dataset ---
 nom = input("Nom du dataset : ")
 domaine = input("Domaine : ")
+if domaine in domaines_autorises:
+    print(f"Domaine « {domaine} » valide.")
+else :
+    print(f"Attention : « {domaine} » n'est pas dans la liste des domaines autorisés.")    
 lignes = int(input("Nombre de lignes : "))
 colonnes = int(input("Nombre de colonnes : "))
 taille = float(input("Taille en Mo : "))
