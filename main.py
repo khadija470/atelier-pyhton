@@ -1,3 +1,4 @@
+import csv
 # --- Domaines autorisés ---
 domaines_autorises = ("Santé", "Finance", "Agriculture", "Transport", "Education")
 
@@ -14,9 +15,10 @@ while True:
     print("5. Modifier un dataset")
     print("6. Supprimer un dataset")
     print("7. Statistiques")
-    print("8. Quitter")
+    print("8. Sauvegarder")
+    print("9. Recharger")
+    print("10. Quitter")
     print("========================")
-
     choix = input("Votre choix : ")
 
     if choix == "1":
@@ -24,23 +26,26 @@ while True:
         domaine = input("Domaine : ")
         if domaine not in domaines_autorises:
             print(f"Attention : « {domaine} » n'est pas un domaine autorisé.")
-        lignes = int(input("Nombre de lignes : "))
-        colonnes = int(input("Nombre de colonnes : "))
-        taille = float(input("Taille en Mo : "))
-        format_dataset = input("Format (csv ou json) : ")
-        public = input("Public ? (true ou false) : ") == "true"
+        try:
+            lignes = int(input("Nombre de lignes : "))
+            colonnes = int(input("Nombre de colonnes : "))
+            taille = float(input("Taille en Mo : "))
+            format_dataset = input("Format (csv ou json) : ")
+            public = input("Public ? (true ou false) : ") == "true"
 
-        dataset = {
-            "nom": nom,
-            "domaine": domaine,
-            "lignes": lignes,
-            "colonnes": colonnes,
-            "taille": taille,
-            "format": format_dataset,
-            "public": public,
-        }
-        datasets.append(dataset)
-        print(f"Dataset « {nom} » ajouté. Total : {len(datasets)}")
+            dataset = {
+                "nom": nom,
+                "domaine": domaine,
+                "lignes": lignes,
+                "colonnes": colonnes,
+                "taille": taille,
+                "format": format_dataset,
+                "public": public,
+            }
+            datasets.append(dataset)
+            print(f"Dataset « {nom} » ajouté. Total : {len(datasets)}")
+        except ValueError:
+            print("Erreur : lignes, colonnes et taille doivent être des nombres. Dataset non ajouté.")
 
     elif choix == "2":
         if len(datasets) == 0:
@@ -71,8 +76,11 @@ while True:
         for d in datasets:
             if d["nom"] == recherche:
                 d["domaine"] = input("Nouveau domaine : ")
-                d["lignes"] = int(input("Nouveau nombre de lignes : "))
-                print(f"Dataset « {recherche} » modifié.")
+                try:
+                    d["lignes"] = int(input("Nouveau nombre de lignes : "))
+                    print(f"Dataset « {recherche} » modifié.")
+                except ValueError:
+                    print("Erreur : le nombre de lignes doit être un nombre. Modification annulée.")
                 trouve = True
         if not trouve:
             print("Aucun dataset ne porte ce nom.")
@@ -114,6 +122,31 @@ while True:
             for dom, nb in repartition.items():
                 print(f"  {dom} : {nb}")
     elif choix == "8":
+        with open("datasets.csv", "w", newline="", encoding="utf-8") as fichier:
+            colonnes_csv = ["nom", "domaine", "lignes", "colonnes", "taille", "format", "public"]
+            writer = csv.DictWriter(fichier, fieldnames=colonnes_csv)
+            writer.writeheader()
+            for d in datasets:
+                writer.writerow(d)
+        print(f"{len(datasets)} dataset(s) sauvegardé(s) dans datasets.csv")
+    elif choix == "9":
+        try:
+            with open("datasets.csv", "r", newline="", encoding="utf-8") as fichier:
+                reader = csv.DictReader(fichier)
+                datasets.clear()
+                for ligne in reader:
+                    ligne["lignes"] = int(ligne["lignes"])
+                    ligne["colonnes"] = int(ligne["colonnes"])
+                    ligne["taille"] = float(ligne["taille"])
+                    ligne["public"] = ligne["public"] == "True"
+                    datasets.append(ligne)
+            if len(datasets) == 0:
+                print("Le fichier datasets.csv est vide.")
+            else:
+                print(f"{len(datasets)} dataset(s) rechargé(s) depuis datasets.csv")
+        except FileNotFoundError:
+            print("Le fichier datasets.csv n'existe pas encore. Faites d'abord une sauvegarde.") 
+    elif choix == "10":
         print("Au revoir !")
         break
 
