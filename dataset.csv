@@ -1,3 +1,0 @@
-nom,domaine,lignes,colonnes,taille,format,public
-Titanic,Transport,891,12,48.0,csv,True
-Covid,Santé,5000,8,120.0,json,False
