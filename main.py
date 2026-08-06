@@ -1,62 +1,98 @@
-# --- Domaines autorisés (tuple) ---
+# --- Domaines autorisés ---
 domaines_autorises = ("Santé", "Finance", "Agriculture", "Transport", "Education")
 
-# --- Saisie des métadonnées du dataset ---
-nom = input("Nom du dataset : ")
-domaine = input("Domaine : ")
+# --- Liste des datasets ---
+datasets = []
 
-if domaine in domaines_autorises:
-    print(f"Domaine « {domaine} » valide.")
-else:
-    print(f"Attention : « {domaine} » n'est pas dans la liste des domaines autorisés.")
-
-lignes = int(input("Nombre de lignes : "))
-colonnes = int(input("Nombre de colonnes : "))
-taille = float(input("Taille en Mo : "))
-format_dataset = input("Format (csv ou json) : ")
-public = input("Public ? (true ou false) : ") == "true"
-
-# --- Dictionnaire du dataset ---
-dataset = {
-    "nom": nom,
-    "domaine": domaine,
-    "lignes": lignes,
-    "colonnes": colonnes,
-    "taille": taille,
-    "format": format_dataset,
-    "public": public,
-}
-
-# --- Affichage du résumé ---
-print("\n===== Résumé du dataset =====")
-print(f"Nom      : {dataset['nom']}")
-print(f"Domaine  : {dataset['domaine']}")
-print(f"Lignes   : {dataset['lignes']}")
-print(f"Colonnes : {dataset['colonnes']}")
-print(f"Taille   : {dataset['taille']} Mo")
-print(f"Format   : {dataset['format']}")
-print(f"Public   : {dataset['public']}")
-print("=============================")
-
-# --- Partie 2 Structure de controle ---
+# --- Menu principal ---
 while True:
     print("\n========================")
     print("1. Ajouter un dataset")
     print("2. Afficher les datasets")
-    print("3. Rechercher")
-    print("4. Quitter")
+    print("3. Rechercher un dataset")
+    print("4. Trier les datasets")
+    print("5. Modifier un dataset")
+    print("6. Supprimer un dataset")
+    print("7. Quitter")
     print("========================")
 
     choix = input("Votre choix : ")
 
     if choix == "1":
-        print("Vous avez choisi : Ajouter un dataset")
+        nom = input("Nom du dataset : ")
+        domaine = input("Domaine : ")
+        if domaine not in domaines_autorises:
+            print(f"Attention : « {domaine} » n'est pas un domaine autorisé.")
+        lignes = int(input("Nombre de lignes : "))
+        colonnes = int(input("Nombre de colonnes : "))
+        taille = float(input("Taille en Mo : "))
+        format_dataset = input("Format (csv ou json) : ")
+        public = input("Public ? (true ou false) : ") == "true"
+
+        dataset = {
+            "nom": nom,
+            "domaine": domaine,
+            "lignes": lignes,
+            "colonnes": colonnes,
+            "taille": taille,
+            "format": format_dataset,
+            "public": public,
+        }
+        datasets.append(dataset)
+        print(f"Dataset « {nom} » ajouté. Total : {len(datasets)}")
+
     elif choix == "2":
-        print("Vous avez choisi : Afficher les datasets")
+        if len(datasets) == 0:
+            print("Aucun dataset enregistré.")
+        else:
+            for d in datasets:
+                print(f"- {d['nom']} ({d['domaine']}, {d['lignes']} lignes, format {d['format']})")
+
     elif choix == "3":
-        print("Vous avez choisi : Rechercher")
+        recherche = input("Nom du dataset à rechercher : ")
+        trouve = False
+        for d in datasets:
+            if d["nom"] == recherche:
+                print(f"Trouvé : {d['nom']} ({d['domaine']}, {d['lignes']} lignes)")
+                trouve = True
+        if not trouve:
+            print("Aucun dataset ne porte ce nom.")
+
     elif choix == "4":
+        datasets.sort(key=lambda d: d["nom"])
+        print("Datasets triés par nom.")
+        for d in datasets:
+            print(f"- {d['nom']}")
+
+    elif choix == "5":
+        recherche = input("Nom du dataset à modifier : ")
+        trouve = False
+        for d in datasets:
+            if d["nom"] == recherche:
+                d["domaine"] = input("Nouveau domaine : ")
+                d["lignes"] = int(input("Nouveau nombre de lignes : "))
+                print(f"Dataset « {recherche} » modifié.")
+                trouve = True
+        if not trouve:
+            print("Aucun dataset ne porte ce nom.")
+
+    elif choix == "6":
+        recherche = input("Nom du dataset à supprimer : ")
+        trouve = False
+        for d in datasets:
+            if d["nom"] == recherche:
+                datasets.remove(d)
+                print(f"Dataset « {recherche} » supprimé.")
+                trouve = True
+                break
+        if not trouve:
+            print("Aucun dataset ne porte ce nom.")
+
+    elif choix == "7":
         print("Au revoir !")
         break
+
     else:
         print("Choix invalide, réessayez.")
+
+    input("\nAppuyez sur Entrée pour continuer...")
