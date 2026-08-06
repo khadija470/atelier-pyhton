@@ -7,13 +7,47 @@ taille = float(input("Taille en Mo : "))
 format_dataset = input("Format (csv ou json) : ")
 public = input("Public ? (true ou false) : ") == "true"
 
-# --- Affichage du résumé  ---
+# --- Dictionnaire du dataset ---
+dataset = {
+    "nom": nom,
+    "domaine": domaine,
+    "lignes": lignes,
+    "colonnes": colonnes,
+    "taille": taille,
+    "format": format_dataset,
+    "public": public,
+}
+
+# --- Affichage du résumé ---
 print("\n===== Résumé du dataset =====")
-print(f"Nom      : {nom}")
-print(f"Domaine  : {domaine}")
-print(f"Lignes   : {lignes}")
-print(f"Colonnes : {colonnes}")
-print(f"Taille   : {taille} Mo")
-print(f"Format   : {format_dataset}")
-print(f"Public   : {public}")
+print(f"Nom      : {dataset['nom']}")
+print(f"Domaine  : {dataset['domaine']}")
+print(f"Lignes   : {dataset['lignes']}")
+print(f"Colonnes : {dataset['colonnes']}")
+print(f"Taille   : {dataset['taille']} Mo")
+print(f"Format   : {dataset['format']}")
+print(f"Public   : {dataset['public']}")
 print("=============================")
+
+# --- Partie 2 Structure de controle ---
+while True:
+    print("\n========================")
+    print("1. Ajouter un dataset")
+    print("2. Afficher les datasets")
+    print("3. Rechercher")
+    print("4. Quitter")
+    print("========================")
+
+    choix = input("Votre choix : ")
+
+    if choix == "1":
+        print("Vous avez choisi : Ajouter un dataset")
+    elif choix == "2":
+        print("Vous avez choisi : Afficher les datasets")
+    elif choix == "3":
+        print("Vous avez choisi : Rechercher")
+    elif choix == "4":
+        print("Au revoir !")
+        break
+    else:
+        print("Choix invalide, réessayez.")
