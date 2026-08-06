@@ -1,15 +1,15 @@
-from menu import afficher_menu
-from gestion import (
+from interface.menu import afficher_menu
+from interface.affichage import afficher_datasets
+from datasets.gestion import (
     ajouter_dataset,
-    afficher_datasets,
     rechercher_dataset,
     trier_dataset,
     modifier_dataset,
     supprimer_dataset,
-    sauvegarder,
-    recharger,
 )
-from statistiques import statistiques
+from datasets.statistiques import statistiques
+from stockage.csv_manager import sauvegarder_csv, recharger_csv
+from stockage.json_manager import sauvegarder_json, recharger_json
 
 domaines_autorises = ("Santé", "Finance", "Agriculture", "Transport", "Education")
 datasets = []
@@ -33,10 +33,14 @@ while True:
     elif choix == "7":
         statistiques(datasets, domaines_autorises)
     elif choix == "8":
-        sauvegarder(datasets)
+        sauvegarder_csv(datasets)
     elif choix == "9":
-        recharger(datasets)
+        recharger_csv(datasets)
     elif choix == "10":
+        sauvegarder_json(datasets)
+    elif choix == "11":
+        recharger_json(datasets)
+    elif choix == "12":
         print("Au revoir !")
         break
     else:

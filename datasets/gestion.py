@@ -1,6 +1,3 @@
-import csv
-
-
 def ajouter_dataset(datasets, domaines_autorises):
     nom = input("Nom du dataset : ")
     domaine = input("Domaine : ")
@@ -25,14 +22,6 @@ def ajouter_dataset(datasets, domaines_autorises):
         print(f"Dataset « {nom} » ajouté. Total : {len(datasets)}")
     except ValueError:
         print("Erreur : lignes, colonnes et taille doivent être des nombres. Dataset non ajouté.")
-
-
-def afficher_datasets(datasets):
-    if len(datasets) == 0:
-        print("Aucun dataset enregistré.")
-    else:
-        for d in datasets:
-            print(f"- {d['nom']} ({d['domaine']}, {d['lignes']} lignes, format {d['format']})")
 
 
 def rechercher_dataset(datasets):
@@ -80,32 +69,3 @@ def supprimer_dataset(datasets):
             break
     if not trouve:
         print("Aucun dataset ne porte ce nom.")
-
-
-def sauvegarder(datasets):
-    with open("datasets.csv", "w", newline="", encoding="utf-8") as fichier:
-        colonnes_csv = ["nom", "domaine", "lignes", "colonnes", "taille", "format", "public"]
-        writer = csv.DictWriter(fichier, fieldnames=colonnes_csv)
-        writer.writeheader()
-        for d in datasets:
-            writer.writerow(d)
-    print(f"{len(datasets)} dataset(s) sauvegardé(s) dans datasets.csv")
-
-
-def recharger(datasets):
-    try:
-        with open("datasets.csv", "r", newline="", encoding="utf-8") as fichier:
-            reader = csv.DictReader(fichier)
-            datasets.clear()
-            for ligne in reader:
-                ligne["lignes"] = int(ligne["lignes"])
-                ligne["colonnes"] = int(ligne["colonnes"])
-                ligne["taille"] = float(ligne["taille"])
-                ligne["public"] = ligne["public"] == "True"
-                datasets.append(ligne)
-        if len(datasets) == 0:
-            print("Le fichier datasets.csv est vide.")
-        else:
-            print(f"{len(datasets)} dataset(s) rechargé(s) depuis datasets.csv")
-    except FileNotFoundError:
-        print("Le fichier datasets.csv n'existe pas encore. Faites d'abord une sauvegarde.")

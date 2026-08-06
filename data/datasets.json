@@ -1,0 +1,11 @@
+[
+  {
+    "nom": "Titanic",
+    "domaine": "Transport",
+    "lignes": 891,
+    "colonnes": 28,
+    "taille": 48.0,
+    "format": "json",
+    "public": true
+  }
+]
