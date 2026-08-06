@@ -1,0 +1,13 @@
+def afficher_menu():
+    print("\n========================")
+    print("1. Ajouter un dataset")
+    print("2. Afficher les datasets")
+    print("3. Rechercher un dataset")
+    print("4. Trier les datasets")
+    print("5. Modifier un dataset")
+    print("6. Supprimer un dataset")
+    print("7. Statistiques")
+    print("8. Sauvegarder")
+    print("9. Recharger")
+    print("10. Quitter")
+    print("========================")
